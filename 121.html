@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>JavaScipt进阶</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    .filter {
+        margin-top: 10px;
+    }
+
+    .filter ul li {
+        text-align: center;
+        width: 100px;
+        background-color: chocolate;
+        list-style: none;
+        align-content: center;
+        font-size: 21px;
+        width: 140px;
+    }
+
+    .filter ul {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .info {
+        border: 2px dashed blueviolet;
+    }
+
+    .info .x {
+        text-align: center;
+        background-color: antiquewhite;
+    }
+</style>
+<body>
+
+<div class="filter">
+    <ul>
+        <li data-index='1'>0-100人</li>
+        <li data-index='2'>100-200人</li>
+        <li data-index='3'>200-250人</li>
+        <li data-index='4'>250-300人</li>
+        <li data-index='5'>全部</li>
+    </ul>
+</div>
+<div class="info"></div>
+<div class="xinxi"></div>
+
+<script>
+    <!--创建arr函数-->
+    const arr = [{
+        infos: '234'
+    }, {
+        infos: '64'
+    }, {
+        infos: '264'
+    }, {
+        infos: '154'
+    }]
+
+    // getDOMTrees
+    const filter = document.querySelector('.filter ul')
+    const info = document.querySelector('.info')
+
+    function reader() {
+        // 定义变量,作用是拼接遍历的模版字符串
+        let str = ''
+        // 遍历arr里面的数据，然后给info追加数据内容
+        arr.forEach(item => {
+            // 解构
+            const {
+                infos
+            } = item
+            // 赋值
+            str += `
+    					 		  <div class='x'>
+    					 			<div class='xx'>${infos}</div>
+    					 		  </div>`
+
+            info.innerHTML = str
+
+            document.querySelector('.xinxi').style.textAlign = 'center'
+            document.querySelector('.info').style.marginTop = '5px'
+        })
+    }
+    reader()
+
+    filter.addEventListener('click', e => {
+        //判断自定义属性
+        if (e.target.dataset.index) {
+            // 定义reader函数
+            function reader(arr) {
+
+                // 定义变量,作用是拼接遍历的模版字符串
+                let str = ''
+
+                // 遍历arr里面的数据，然后给info追加数据内容
+                arr.forEach(item => {
+
+                    // 解构
+                    const {
+                        infos
+                    } = item
+
+                    // 赋值
+                    str += `
+						 		  <div class='x'>
+						 			<div class='xx'>${infos}</div>
+						 		  </div>`
+
+                    info.innerHTML = str
+
+                })
+            }
+        }
+
+        // 筛选人数问题
+        if (e.target.dataset.index === '1') {
+
+            a = arr.filter(item => item.infos <= 100)
+
+            document.querySelector('.xinxi').innerHTML = ''
+
+        } else if (e.target.dataset.index === '2') {
+
+            a = arr.filter(item => item.infos >= 100 && item.infos <= 200)
+
+            document.querySelector('.xinxi').innerHTML = ''
+
+        } else if (e.target.dataset.index === '3') {
+
+            a = arr.filter(item => item.infos >= 200 && item.infos <= 250)
+
+            document.querySelector('.xinxi').innerHTML = ''
+
+        } else if (e.target.dataset.index === '4') {
+
+            a = arr.filter(item => item.infos >= 250)
+
+            document.querySelector('.xinxi').innerHTML = ''
+
+        } else if (e.target.dataset.index === '5') {
+            a = arr
+
+            let sum = 0
+
+            for (let i = 0; i < arr.length; i++) {
+                sum += Number(arr[i].infos)
+            }
+            document.querySelector('.xinxi').innerHTML = `合计：${sum}`
+        }
+        // 调用实参a的reader函数
+        reader(a)
+    })
+</script>
+
+</body>
+</html>
